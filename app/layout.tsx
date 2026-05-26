@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DevxAI Delivery Exception Agent",
+  title: "DelXAI Delivery Exception Agent",
   description:
     "A Wayfair supply-chain agent for delivery exception triage, rescheduling, and customer communication drafts.",
 };

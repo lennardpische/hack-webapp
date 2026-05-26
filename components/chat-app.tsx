@@ -11,6 +11,87 @@ import {
 
 type Mode = "chat" | "agent";
 type Theme = "light" | "dark";
+type ToolPart = UIMessage["parts"][number] & { type: string; state?: string };
+
+const DEMO_SCENARIOS = [
+  {
+    label: "Open exceptions today",
+    prompt: "What delivery exceptions are open today? Keep it brief.",
+  },
+  {
+    label: "Fix WF-10482",
+    prompt:
+      "Order WF-10482 missed its delivery window - fix it. Use the earliest recovery slot and draft the customer email.",
+  },
+  {
+    label: "Earliest redelivery",
+    prompt:
+      "Customer wants the earliest redelivery for tracking 1Z99910482. Compare options and use the earliest recovery slot.",
+  },
+  {
+    label: "Denver weather delay",
+    prompt: "Summarize options for a weather delay in Denver and draft customer-friendly copy.",
+  },
+];
+
+const SEVERITIES = new Set(["critical", "high", "medium", "low", "resolved"]);
+
+function stripMarkdown(text: string) {
+  return text.replace(/\*\*/g, "").replace(/\*/g, "").replace(/`/g, "").trim();
+}
+
+function severityClass(value: string) {
+  return `severity-badge severity-${value.toLowerCase()}`;
+}
+
+function isSeverity(value: string) {
+  return SEVERITIES.has(value.trim().toLowerCase());
+}
+
+function renderPlainText(text: string, keyPrefix: string): ReactNode[] {
+  const parts: ReactNode[] = [];
+  const pattern = /\b(Critical|High|Medium|Low|Resolved)\b/gi;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+
+    const value = match[0];
+    parts.push(
+      <span key={`${keyPrefix}-severity-${match.index}`} className={severityClass(value)}>
+        {value}
+      </span>,
+    );
+    lastIndex = pattern.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+}
+
+function sectionValue(text: string, heading: string) {
+  const escapedHeading = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(
+    `(?:^|\\n)\\*\\*${escapedHeading}\\*\\*\\s*\\n([\\s\\S]*?)(?=\\n\\*\\*[^*]+\\*\\*\\s*\\n|$)`,
+    "i",
+  );
+  return stripMarkdown(pattern.exec(text)?.[1] ?? "");
+}
+
+function firstLine(value: string) {
+  return value.split("\n").map((line) => line.trim()).find(Boolean) ?? "";
+}
+
+function copyText(text: string) {
+  if (!text) return;
+  void navigator.clipboard?.writeText(text);
+}
 
 function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
   const parts: ReactNode[] = [];
@@ -20,22 +101,44 @@ function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
 
   while ((match = pattern.exec(text)) !== null) {
     if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
+      parts.push(...renderPlainText(text.slice(lastIndex, match.index), `${keyPrefix}-plain-${lastIndex}`));
     }
 
     const token = match[0];
     const key = `${keyPrefix}-${match.index}`;
 
     if (token.startsWith("**")) {
+      const value = token.slice(2, -2);
+      if (isSeverity(value)) {
+        parts.push(
+          <span key={key} className={severityClass(value)}>
+            {value}
+          </span>,
+        );
+        lastIndex = pattern.lastIndex;
+        continue;
+      }
+
       parts.push(
         <strong key={key} className="markdown-strong">
-          {token.slice(2, -2)}
+          {value}
         </strong>,
       );
     } else if (token.startsWith("*")) {
+      const value = token.slice(1, -1);
+      if (isSeverity(value)) {
+        parts.push(
+          <span key={key} className={severityClass(value)}>
+            {value}
+          </span>,
+        );
+        lastIndex = pattern.lastIndex;
+        continue;
+      }
+
       parts.push(
         <em key={key} className="markdown-emphasis">
-          {token.slice(1, -1)}
+          {value}
         </em>,
       );
     } else {
@@ -50,7 +153,7 @@ function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
   }
 
   if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
+    parts.push(...renderPlainText(text.slice(lastIndex), `${keyPrefix}-plain-${lastIndex}`));
   }
 
   return parts;
@@ -59,6 +162,22 @@ function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
 function ChatMarkdown({ text }: { text: string }) {
   const lines = text.split("\n");
   const blocks: ReactNode[] = [];
+  const summary = {
+    situation: sectionValue(text, "Situation"),
+    recommendedAction: sectionValue(text, "Recommended action"),
+    customerMessage: sectionValue(text, "Customer message"),
+    opsNotes: sectionValue(text, "Ops notes"),
+  };
+  const hasSummary = Boolean(
+    summary.situation ||
+      summary.recommendedAction ||
+      summary.customerMessage ||
+      summary.opsNotes,
+  );
+
+  if (hasSummary) {
+    blocks.push(<ResolutionSummary key="resolution-summary" {...summary} />);
+  }
 
   lines.forEach((line, index) => {
     const trimmed = line.trim();
@@ -110,15 +229,115 @@ function ChatMarkdown({ text }: { text: string }) {
   return <div className="chat-markdown text-sm">{blocks}</div>;
 }
 
+function ResolutionSummary({
+  situation,
+  recommendedAction,
+  customerMessage,
+  opsNotes,
+}: {
+  situation: string;
+  recommendedAction: string;
+  customerMessage: string;
+  opsNotes: string;
+}) {
+  return (
+    <div className="resolution-card">
+      <div className="resolution-card__header">
+        <span className="resolution-card__eyebrow">Resolution summary</span>
+        {customerMessage && (
+          <button
+            type="button"
+            className="copy-button"
+            onClick={() => copyText(customerMessage)}
+          >
+            Copy customer message
+          </button>
+        )}
+      </div>
+      <div className="resolution-card__grid">
+        {situation && (
+          <div>
+            <span>Exception</span>
+            <strong>{firstLine(situation)}</strong>
+          </div>
+        )}
+        {recommendedAction && (
+          <div>
+            <span>Selected action</span>
+            <strong>{firstLine(recommendedAction)}</strong>
+          </div>
+        )}
+        {opsNotes && (
+          <div>
+            <span>Ops status</span>
+            <strong>{firstLine(opsNotes)}</strong>
+          </div>
+        )}
+      </div>
+      {customerMessage && (
+        <div className="customer-copy">
+          <div className="customer-copy__label">Customer message</div>
+          <pre>{customerMessage}</pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function RoleBadge({ role }: { role: string }) {
   const isUser = role === "user";
 
   return (
     <div className={`role-badge ${isUser ? "role-badge--user" : "role-badge--assistant"}`}>
       <span className="role-badge__icon" aria-hidden="true">
-        {isUser ? "OP" : "DX"}
+        {isUser ? "OP" : "DL"}
       </span>
-      <span>{isUser ? "Operator" : "DevxAI"}</span>
+      <span>{isUser ? "Operator" : "DelXAI"}</span>
+    </div>
+  );
+}
+
+function toolLabel(toolName: string) {
+  const labels: Record<string, string> = {
+    getShipment: "Lookup",
+    listDeliveryExceptions: "Queue",
+    getCarrierUpdate: "Carrier",
+    getRescheduleSlots: "Slots",
+    rescheduleDelivery: "Reschedule",
+    draftCustomerCommunication: "Draft",
+    resolveException: "Close",
+  };
+  return labels[toolName] ?? toolName.replace(/([A-Z])/g, " $1").trim();
+}
+
+function ActionTimeline({ parts }: { parts: UIMessage["parts"] }) {
+  const toolParts = parts.filter((part): part is ToolPart =>
+    part.type.startsWith("tool-"),
+  );
+
+  if (toolParts.length === 0) return null;
+
+  return (
+    <div className="action-timeline" aria-label="Agent action timeline">
+      {toolParts.map((part, index) => {
+        const toolName = part.type.replace("tool-", "");
+        const state = part.state ?? "unknown";
+        return (
+          <div
+            key={`${toolName}-${index}`}
+            className={`action-step ${
+              state === "output-available"
+                ? "is-done"
+                : state === "output-error"
+                  ? "is-error"
+                  : "is-running"
+            }`}
+          >
+            <span className="action-step__dot" />
+            <span>{toolLabel(toolName)}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -202,6 +421,13 @@ export function ChatApp() {
 
   const isBusy = status === "streaming" || status === "submitted";
 
+  function sendPrompt(text: string) {
+    sendMessage({ parts: [{ type: "text", text }] });
+    setInput("");
+    setImageFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     const text = input.trim();
@@ -243,7 +469,7 @@ export function ChatApp() {
               Track 2 Supply Chain
             </p>
             <h1 className="app-title text-xl font-semibold tracking-tight">
-              Delivery Exception Agent: DevxAI
+              Delivery Exception Agent: DelXAI
             </h1>
             <p className="app-muted mt-1 text-sm">
               Triage carrier issues, recover delivery slots, and draft customer options.
@@ -308,12 +534,19 @@ export function ChatApp() {
               <p className="empty-title text-lg font-medium">
                 Try a delivery exception workflow
               </p>
-              <ul className="mt-4 max-w-md space-y-2 text-sm">
-                <li>“What delivery exceptions are open today?”</li>
-                <li>“Order WF-10482 missed its delivery window - fix it”</li>
-                <li>“Customer wants the earliest redelivery for tracking 1Z99910482”</li>
-                <li>“Summarize options for a weather delay in Denver”</li>
-              </ul>
+              <div className="scenario-grid mt-5">
+                {DEMO_SCENARIOS.map((scenario) => (
+                  <button
+                    key={scenario.label}
+                    type="button"
+                    className="scenario-button"
+                    onClick={() => sendPrompt(scenario.prompt)}
+                    disabled={isBusy}
+                  >
+                    <span>{scenario.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
@@ -330,6 +563,9 @@ export function ChatApp() {
                 }`}
               >
                 <RoleBadge role={message.role} />
+                {message.role === "assistant" && (
+                  <ActionTimeline parts={message.parts} />
+                )}
                 {message.parts.map((part, index) => (
                   <MessagePart
                     key={`${message.id}-${index}`}

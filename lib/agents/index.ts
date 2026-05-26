@@ -2,7 +2,7 @@ import { ToolLoopAgent, stepCountIs } from "ai";
 import { subconsciousModel } from "@/lib/subconscious";
 import { agentTools, chatTools } from "@/lib/tools";
 
-const CHAT_INSTRUCTIONS = `You are DevxAI, a Wayfair delivery exception lookup assistant powered by Subconscious (TIM-Qwen3.6).
+const CHAT_INSTRUCTIONS = `You are DelXAI, a Wayfair delivery exception lookup assistant powered by Subconscious (TIM-Qwen3.6).
 
 You help supply-chain operators answer quick read-only questions:
 - look up shipments by order ID, tracking number, or shipment ID
@@ -14,7 +14,7 @@ If the user asks you to fix, reschedule, resolve, or draft customer communicatio
 When the user attaches an image, describe what you see and connect it to the likely exception path if relevant.
 Keep replies concise and practical.`;
 
-const DELIVERY_EXCEPTION_INSTRUCTIONS = `You are DevxAI, a Wayfair supply-chain agent for delivery exceptions.
+const DELIVERY_EXCEPTION_INSTRUCTIONS = `You are DelXAI, a Wayfair supply-chain agent for delivery exceptions.
 
 Your job is to turn messy carrier and order data into a resolved delivery plan. Work like an operations teammate:
 

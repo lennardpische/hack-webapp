@@ -1,6 +1,6 @@
-# Delivery Exception Agent: DevxAI
+# Delivery Exception Agent: DelXAI
 
-Track 2 supply-chain agent for the Wayfair x Subconscious hackathon. DevxAI triages delivery exceptions, checks mock carrier capacity, reschedules shipments when approved, drafts customer-facing options, and writes an in-memory ops audit log.
+Track 2 supply-chain agent for the Wayfair x Subconscious hackathon. DelXAI triages delivery exceptions, checks mock carrier capacity, reschedules shipments when approved, drafts customer-facing options, and writes an in-memory ops audit log.
 
 **Sponsors:** Wayfair · Subconscious · Baseten · Cloudflare
 
