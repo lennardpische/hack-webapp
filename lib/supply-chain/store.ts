@@ -263,6 +263,16 @@ function timezoneForRegion(region: string) {
   return "EDT";
 }
 
+function formatFee(fee: number) {
+  return fee === 0 ? "no fee" : `$${fee} fee`;
+}
+
+function formatOptionLine(option: CustomerOption, index: number) {
+  return `${index + 1}. ${option.label}: ${option.description} (${formatFee(
+    option.fee ?? 0,
+  )})`;
+}
+
 export function rescheduleShipment(input: {
   shipmentId?: string;
   orderId?: string;
@@ -439,7 +449,18 @@ export function draftCommunication(input: {
     exceptionText,
     selectedText,
     "",
-    "Please reply with your preferred option, and we will confirm the appointment. If the listed window does not work, we can keep looking for another time.",
+    ...(options.length > 0
+      ? [
+          includeAlternatives
+            ? "Available delivery options:"
+            : "Recommended delivery option:",
+          ...options.map(formatOptionLine),
+          "",
+        ]
+      : []),
+    includeAlternatives
+      ? "Please reply with your preferred option number, and we will confirm the appointment. If none of these windows work, we can keep looking for another time."
+      : "Please reply to confirm this window, and we will confirm the appointment. If the listed window does not work, we can keep looking for another time.",
     "",
     "Thank you,",
     "Wayfair Delivery Support",
