@@ -1,21 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Hackathon Starter — Subconscious Agents",
+  title: "DevxAI Delivery Exception Agent",
   description:
-    "Chat and long-running agents powered by Subconscious, Vercel AI SDK, Baseten, and Cloudflare.",
+    "A Wayfair supply-chain agent for delivery exception triage, rescheduling, and customer communication drafts.",
 };
 
 export default function RootLayout({
@@ -24,12 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      style={{ colorScheme: "dark" }}
-    >
-      <body className="flex min-h-full flex-col bg-black text-white">
+    <html lang="en" className="h-full antialiased">
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
         {children}
       </body>
     </html>

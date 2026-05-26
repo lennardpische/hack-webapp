@@ -1,0 +1,376 @@
+[
+  {
+    "id": "SHP-10482",
+    "orderId": "WF-10482",
+    "trackingNumber": "1Z99910482",
+    "carrier": "UPS Freight",
+    "serviceLevel": "white_glove",
+    "status": "exception",
+    "customer": {
+      "name": "Lina Morris",
+      "email": "lina.morris@example.com",
+      "phone": "+1-303-555-0142"
+    },
+    "destination": {
+      "street": "2280 S Pearl St",
+      "city": "Denver",
+      "state": "CO",
+      "postalCode": "80210",
+      "region": "Mountain"
+    },
+    "itemSummary": "Harbor 3-piece sectional sofa",
+    "lineItems": [
+      {
+        "sku": "SOF-HARBOR-3PC-GRAY",
+        "description": "Harbor 3-piece sectional sofa, gray performance fabric",
+        "quantity": 1,
+        "cartons": 3
+      }
+    ],
+    "supplier": "Northstar Upholstery",
+    "fulfillmentCenter": "DEN-LTL-02",
+    "promisedWindow": "2026-05-26 09:00-13:00 MDT",
+    "currentWindow": "2026-05-26 09:00-13:00 MDT",
+    "requiresWhiteGlove": true,
+    "isLargeItem": true,
+    "accessNotes": "Townhouse with alley access. Elevator reservation not required.",
+    "notes": "Customer requested delivery before holiday guests arrive."
+  },
+  {
+    "id": "SHP-23891",
+    "orderId": "WF-23891",
+    "trackingNumber": "FX23891BOS",
+    "carrier": "FedEx Freight",
+    "serviceLevel": "ltl",
+    "status": "exception",
+    "customer": {
+      "name": "Marcus Chen",
+      "email": "marcus.chen@example.com",
+      "phone": "+1-617-555-0177"
+    },
+    "destination": {
+      "street": "41 Concord Ave",
+      "city": "Cambridge",
+      "state": "MA",
+      "postalCode": "02138",
+      "region": "Northeast"
+    },
+    "itemSummary": "Briar modular wall bookshelf",
+    "lineItems": [
+      {
+        "sku": "BOOK-BRIAR-BASE",
+        "description": "Briar bookshelf base cartons",
+        "quantity": 1,
+        "cartons": 2
+      },
+      {
+        "sku": "BOOK-BRIAR-TOP",
+        "description": "Briar bookshelf upper shelves",
+        "quantity": 1,
+        "cartons": 2
+      }
+    ],
+    "supplier": "Cascadia Casegoods",
+    "fulfillmentCenter": "EWR-BULK-01",
+    "promisedWindow": "2026-05-27 10:00-14:00 EDT",
+    "currentWindow": "2026-05-27 10:00-14:00 EDT",
+    "requiresWhiteGlove": false,
+    "isLargeItem": true,
+    "accessNotes": "Condo loading dock available weekdays until 16:00.",
+    "notes": "Two cartons are at destination terminal; two cartons still inbound from EWR."
+  },
+  {
+    "id": "SHP-77420",
+    "orderId": "WF-77420",
+    "trackingNumber": "RL77420NYC",
+    "carrier": "Roadrunner LTL",
+    "serviceLevel": "ltl",
+    "status": "exception",
+    "customer": {
+      "name": "Priya Shah",
+      "email": "priya.shah@example.com",
+      "phone": "+1-212-555-0188"
+    },
+    "destination": {
+      "street": "311 W 43rd St Apt 8B",
+      "city": "New York",
+      "state": "NY",
+      "postalCode": "10036",
+      "region": "Northeast"
+    },
+    "itemSummary": "Alden storage bed frame",
+    "lineItems": [
+      {
+        "sku": "BED-ALDEN-QN-WAL",
+        "description": "Alden queen storage bed, walnut",
+        "quantity": 1,
+        "cartons": 4
+      }
+    ],
+    "supplier": "Hudson Bedroom Co.",
+    "fulfillmentCenter": "ABE-LTL-03",
+    "promisedWindow": "2026-05-25 12:00-16:00 EDT",
+    "currentWindow": "2026-05-25 12:00-16:00 EDT",
+    "requiresWhiteGlove": false,
+    "isLargeItem": true,
+    "accessNotes": "Doorman building. Freight elevator must be booked by resident.",
+    "notes": "Carrier attempted delivery, but elevator reservation was unavailable."
+  },
+  {
+    "id": "SHP-33019",
+    "orderId": "WF-33019",
+    "trackingNumber": "AMZL33019CHI",
+    "carrier": "AM Home Delivery",
+    "serviceLevel": "white_glove",
+    "status": "exception",
+    "customer": {
+      "name": "Jordan Lee",
+      "email": "jordan.lee@example.com",
+      "phone": "+1-312-555-0191"
+    },
+    "destination": {
+      "street": "1842 N Damen Ave",
+      "city": "Chicago",
+      "state": "IL",
+      "postalCode": "60647",
+      "region": "Midwest"
+    },
+    "itemSummary": "Maris marble dining table",
+    "lineItems": [
+      {
+        "sku": "DIN-MARIS-MARBLE-84",
+        "description": "Maris 84 inch marble dining table",
+        "quantity": 1,
+        "cartons": 2
+      }
+    ],
+    "supplier": "Stone & Oak Furnishings",
+    "fulfillmentCenter": "ORD-WG-01",
+    "promisedWindow": "2026-05-28 08:00-12:00 CDT",
+    "currentWindow": "2026-05-28 08:00-12:00 CDT",
+    "requiresWhiteGlove": true,
+    "isLargeItem": true,
+    "accessNotes": "Narrow stairs. Requires two-person team and room-of-choice placement.",
+    "notes": "Original carrier reported no white-glove crew capacity for promised window."
+  },
+  {
+    "id": "SHP-55510",
+    "orderId": "WF-55510",
+    "trackingNumber": "ODFL55510SEA",
+    "carrier": "Old Dominion",
+    "serviceLevel": "ltl",
+    "status": "exception",
+    "customer": {
+      "name": "Amelia Garcia",
+      "email": "amelia.garcia@example.com",
+      "phone": "+1-206-555-0115"
+    },
+    "destination": {
+      "street": "1200 Lakeside Ave S",
+      "city": "Seattle",
+      "state": "WA",
+      "postalCode": "98144",
+      "region": "Pacific Northwest"
+    },
+    "itemSummary": "Nolan outdoor conversation set",
+    "lineItems": [
+      {
+        "sku": "PAT-NOLAN-5PC-NVY",
+        "description": "Nolan 5-piece outdoor conversation set",
+        "quantity": 1,
+        "cartons": 5
+      }
+    ],
+    "supplier": "Sunyard Living",
+    "fulfillmentCenter": "SEA-LTL-01",
+    "promisedWindow": "2026-05-27 13:00-17:00 PDT",
+    "currentWindow": "2026-05-27 13:00-17:00 PDT",
+    "requiresWhiteGlove": false,
+    "isLargeItem": true,
+    "accessNotes": "Gate code missing. Delivery driveway is steep.",
+    "notes": "Carrier needs gate code and confirmation that box truck can access driveway."
+  },
+  {
+    "id": "SHP-66813",
+    "orderId": "WF-66813",
+    "trackingNumber": "RXO66813DEN",
+    "carrier": "RXO",
+    "serviceLevel": "white_glove",
+    "status": "exception",
+    "customer": {
+      "name": "Nora Patel",
+      "email": "nora.patel@example.com",
+      "phone": "+1-720-555-0129"
+    },
+    "destination": {
+      "street": "954 Jasmine St",
+      "city": "Denver",
+      "state": "CO",
+      "postalCode": "80220",
+      "region": "Mountain"
+    },
+    "itemSummary": "Calder leather recliner pair",
+    "lineItems": [
+      {
+        "sku": "CHR-CALDER-REC-PAIR",
+        "description": "Calder leather power recliner pair",
+        "quantity": 1,
+        "cartons": 2
+      }
+    ],
+    "supplier": "Rocky Mountain Seating",
+    "fulfillmentCenter": "DEN-WG-01",
+    "promisedWindow": "2026-05-26 14:00-18:00 MDT",
+    "currentWindow": "2026-05-26 14:00-18:00 MDT",
+    "requiresWhiteGlove": true,
+    "isLargeItem": true,
+    "accessNotes": "Single-family home. Customer prefers afternoon.",
+    "notes": "Winter storm detour created local route compression."
+  },
+  {
+    "id": "SHP-88015",
+    "orderId": "WF-88015",
+    "trackingNumber": "JBHT88015ATL",
+    "carrier": "J.B. Hunt Final Mile",
+    "serviceLevel": "white_glove",
+    "status": "rescheduled",
+    "customer": {
+      "name": "Evan Miller",
+      "email": "evan.miller@example.com",
+      "phone": "+1-404-555-0160"
+    },
+    "destination": {
+      "street": "830 Glenwood Ave SE",
+      "city": "Atlanta",
+      "state": "GA",
+      "postalCode": "30316",
+      "region": "Southeast"
+    },
+    "itemSummary": "Tessa sleeper sofa",
+    "lineItems": [
+      {
+        "sku": "SOF-TESSA-SLEEP-NVY",
+        "description": "Tessa queen sleeper sofa, navy",
+        "quantity": 1,
+        "cartons": 2
+      }
+    ],
+    "supplier": "Magnolia Upholstery",
+    "fulfillmentCenter": "ATL-WG-01",
+    "promisedWindow": "2026-05-24 09:00-13:00 EDT",
+    "currentWindow": "2026-05-29 13:00-17:00 EDT",
+    "scheduledSlotId": "SLOT-SHP-88015-STD",
+    "requiresWhiteGlove": true,
+    "isLargeItem": true,
+    "accessNotes": "Customer requested Saturday delivery if available.",
+    "notes": "Previously rescheduled after missed carrier pickup."
+  },
+  {
+    "id": "SHP-99002",
+    "orderId": "WF-99002",
+    "trackingNumber": "UPS99002PHX",
+    "carrier": "UPS",
+    "serviceLevel": "parcel",
+    "status": "delivered",
+    "customer": {
+      "name": "Sam Rivera",
+      "email": "sam.rivera@example.com",
+      "phone": "+1-602-555-0144"
+    },
+    "destination": {
+      "street": "505 E Jefferson St",
+      "city": "Phoenix",
+      "state": "AZ",
+      "postalCode": "85004",
+      "region": "Southwest"
+    },
+    "itemSummary": "Milo side table",
+    "lineItems": [
+      {
+        "sku": "TBL-MILO-SIDE-OAK",
+        "description": "Milo side table, oak",
+        "quantity": 1,
+        "cartons": 1
+      }
+    ],
+    "supplier": "Desert Modern Goods",
+    "fulfillmentCenter": "PHX-PARCEL-01",
+    "promisedWindow": "2026-05-23 by end of day MST",
+    "currentWindow": "Delivered 2026-05-23 15:42 MST",
+    "requiresWhiteGlove": false,
+    "isLargeItem": false,
+    "notes": "Delivered to front desk."
+  },
+  {
+    "id": "SHP-70042",
+    "orderId": "WF-70042",
+    "trackingNumber": "FX70042AUS",
+    "carrier": "FedEx",
+    "serviceLevel": "parcel",
+    "status": "in_transit",
+    "customer": {
+      "name": "Maya Green",
+      "email": "maya.green@example.com",
+      "phone": "+1-512-555-0133"
+    },
+    "destination": {
+      "street": "210 Barton Springs Rd",
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78704",
+      "region": "Texas"
+    },
+    "itemSummary": "Solace table lamp pair",
+    "lineItems": [
+      {
+        "sku": "LMP-SOLACE-PAIR-BRS",
+        "description": "Solace brass table lamp pair",
+        "quantity": 1,
+        "cartons": 2
+      }
+    ],
+    "supplier": "Lumen House",
+    "fulfillmentCenter": "DFW-PARCEL-02",
+    "promisedWindow": "2026-05-29 by end of day CDT",
+    "currentWindow": "2026-05-29 by end of day CDT",
+    "requiresWhiteGlove": false,
+    "isLargeItem": false,
+    "notes": "No exception detected."
+  },
+  {
+    "id": "SHP-44120",
+    "orderId": "WF-44120",
+    "trackingNumber": "RL44120MIA",
+    "carrier": "Roadrunner LTL",
+    "serviceLevel": "ltl",
+    "status": "out_for_delivery",
+    "customer": {
+      "name": "Drew Campbell",
+      "email": "drew.campbell@example.com",
+      "phone": "+1-305-555-0180"
+    },
+    "destination": {
+      "street": "944 Biscayne Blvd",
+      "city": "Miami",
+      "state": "FL",
+      "postalCode": "33132",
+      "region": "Southeast"
+    },
+    "itemSummary": "Porto media console",
+    "lineItems": [
+      {
+        "sku": "MED-PORTO-72-WHT",
+        "description": "Porto 72 inch media console, white oak",
+        "quantity": 1,
+        "cartons": 2
+      }
+    ],
+    "supplier": "Coastal Caseworks",
+    "fulfillmentCenter": "MIA-LTL-01",
+    "promisedWindow": "2026-05-26 11:00-15:00 EDT",
+    "currentWindow": "2026-05-26 11:00-15:00 EDT",
+    "requiresWhiteGlove": false,
+    "isLargeItem": true,
+    "notes": "Driver confirmed loaded on route."
+  }
+]

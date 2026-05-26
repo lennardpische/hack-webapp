@@ -1,8 +1,42 @@
-# Wayfair × Subconscious Hackathon Starter
+# Delivery Exception Agent: DevxAI
 
-Build AI agents on **Subconscious** (TIM-Qwen3.6) with the **Vercel AI SDK**. This repo gives you a working chat UI, long-running agent mode, example tools, and an MCP template — so you can focus on your track, not boilerplate.
+Track 2 supply-chain agent for the Wayfair x Subconscious hackathon. DevxAI triages delivery exceptions, checks mock carrier capacity, reschedules shipments when approved, drafts customer-facing options, and writes an in-memory ops audit log.
 
 **Sponsors:** Wayfair · Subconscious · Baseten · Cloudflare
+
+---
+
+## Judge-ready demo
+
+Run the app, choose **Exception Agent**, and try:
+
+```text
+Order WF-10482 missed its delivery window - fix it
+```
+
+Expected flow:
+
+1. The agent calls `getShipment` and `getCarrierUpdate`.
+2. It diagnoses the missed white-glove window and SLA risk.
+3. It calls `getRescheduleSlots` and chooses the best recovery slot.
+4. It calls `rescheduleDelivery`, then `draftCustomerCommunication`.
+5. It calls `resolveException` and returns Situation, Recommended action, Alternatives, Customer message, and Ops notes.
+
+More sample prompts:
+
+- `What delivery exceptions are open today?`
+- `Customer wants the earliest redelivery for tracking 1Z99910482`
+- `Summarize options for a weather delay in Denver`
+- `Look up order WF-23891 and explain the partial shipment risk`
+
+## What was built
+
+- Mock shipment and exception fixtures in `lib/data/`
+- Mutable supply-chain store in `lib/supply-chain/store.ts`
+- AI SDK tools in `lib/tools/supply-chain.ts`
+- Read-only **Lookup** mode for shipment and exception questions
+- Multi-step **Exception Agent** mode for diagnosis, rescheduling, customer drafts, and exception closure
+- Dual Subconscious API key failover on quota/rate-limit style errors
 
 ---
 
@@ -54,12 +88,13 @@ Wayfair runs ~$12B in revenue and serves ~22M customers a year.
 
 Sign up at [subconscious.dev/platform](https://www.subconscious.dev/platform) and copy your key (`sky_...`).
 
-**2. Create a .env.local file with your Subconscious API key**
+**2. Create a .env.local file with your Subconscious API keys**
 
 ```bash
 pnpm install
 cp .env.example .env.local
 # Set SUBCONSCIOUS_API_KEY in .env.local
+# Optionally set SUBCONSCIOUS_API_KEY_2 for automatic failover
 ```
 
 **3. Run the app**
@@ -72,10 +107,10 @@ Open [http://localhost:3000](http://localhost:3000).
 
 **4. Try the two modes**
 
-- **Chat** — fast Q&A with demo tools (good for prototyping UX)
-- **Agent** — multi-step runs with search, long tasks, and MCP stubs (good for track demos)
+- **Lookup** — read-only shipment lookup and exception summaries
+- **Exception Agent** — multi-step delivery exception recovery with write tools
 
-Use **Image** to attach a photo (e.g. a photo of a room or box).
+Use **Image** to attach a damage or carrier-note photo for multimodal reasoning.
 
 ---
 
@@ -85,8 +120,11 @@ You mostly edit three places:
 
 | What | Where |
 |------|--------|
-| Tools (APIs, data, actions) | `lib/tools/index.ts` |
+| Supply-chain tools | `lib/tools/supply-chain.ts` |
+| Tool bundles | `lib/tools/index.ts` |
 | Agent behavior & prompts | `lib/agents/index.ts` |
+| Mock data | `lib/data/*.json` |
+| Mutable store | `lib/supply-chain/store.ts` |
 | MCP integrations | `lib/tools/mcp-tools.ts` |
 
 ### Add a tool
@@ -128,8 +166,8 @@ The UI sends images as data URLs. Useful for room photos, screenshots, or docs. 
 ## What’s included
 
 - **Subconscious provider** — `lib/subconscious.ts`
-- **Chat + research agents** — `lib/agents/index.ts`
-- **Example tools** — weather, calculator, web search stub, long task
+- **Lookup + delivery exception agents** — `lib/agents/index.ts`
+- **Supply-chain tools** — `lib/tools/supply-chain.ts`
 - **Streaming API** — `app/api/chat/route.ts`
 - **Chat UI** — `components/chat-app.tsx`
 - **Subconscious API skill** — `.agents/skills/subconscious-dev/` (for Cursor/Codex)
@@ -146,13 +184,27 @@ npx skills add https://github.com/subconscious-systems/skills --skill subconscio
 
 | Variable | Required |
 |----------|----------|
-| `SUBCONSCIOUS_API_KEY` | Yes — [get one here](https://www.subconscious.dev/platform) |
+| `SUBCONSCIOUS_API_KEY` | Yes, unless `SUBCONSCIOUS_API_KEY_2` is set — [get one here](https://www.subconscious.dev/platform) |
+| `SUBCONSCIOUS_API_KEY_2` | Recommended fallback key |
+
+The server keeps keys private and uses `SUBCONSCIOUS_API_KEY` first. If Subconscious returns a quota/rate-limit style error (`429`, `402`, or a quota-like `403`), the app retries the same request once with `SUBCONSCIOUS_API_KEY_2` and sticks to that key until restart.
+
+---
+
+## Testing checklist
+
+- `pnpm lint`
+- `pnpm build`
+- In **Lookup** mode: `What delivery exceptions are open today?`
+- In **Exception Agent** mode: `Order WF-10482 missed its delivery window - fix it`
+- Confirm the final response includes a customer message and ops notes.
+- Try a blocked path: `Reschedule delivered order WF-99002`
 
 ---
 
 ## Deploy
 
-Set `SUBCONSCIOUS_API_KEY` on your host, then:
+Set `SUBCONSCIOUS_API_KEY` and optionally `SUBCONSCIOUS_API_KEY_2` on your host, then:
 
 ```bash
 pnpm build && pnpm start

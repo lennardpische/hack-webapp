@@ -1,12 +1,12 @@
 import { createAgentUIStreamResponse } from "ai";
-import { chatAgent, researchAgent, type AgentMode } from "@/lib/agents";
-import { requireSubconsciousApiKey } from "@/lib/subconscious";
+import { chatAgent, deliveryExceptionAgent, type AgentMode } from "@/lib/agents";
+import { requireSubconsciousApiKeys } from "@/lib/subconscious";
 
 export const maxDuration = 300;
 
 export async function POST(request: Request) {
   try {
-    requireSubconsciousApiKey();
+    requireSubconsciousApiKeys();
   } catch (error) {
     return Response.json(
       {
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
   if (mode === "agent") {
     return createAgentUIStreamResponse({
-      agent: researchAgent,
+      agent: deliveryExceptionAgent,
       uiMessages: messages,
     });
   }

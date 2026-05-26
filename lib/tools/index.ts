@@ -1,5 +1,9 @@
 import { tool } from "ai";
 import { z } from "zod";
+import {
+  readOnlySupplyChainTools,
+  supplyChainAgentTools,
+} from "@/lib/tools/supply-chain";
 
 /**
  * Example tools for the hackathon starter.
@@ -97,14 +101,17 @@ export const runLongTask = tool({
   },
 });
 
-export const chatTools = {
-  getWeather,
-  calculate,
-};
-
-export const agentTools = {
+export const demoTools = {
   getWeather,
   calculate,
   webSearch,
   runLongTask,
+};
+
+export const chatTools = {
+  ...readOnlySupplyChainTools,
+};
+
+export const agentTools = {
+  ...supplyChainAgentTools,
 };
