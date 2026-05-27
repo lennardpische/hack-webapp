@@ -1,6 +1,10 @@
 # Delivery Exception Agent: DelXAI
 
-Track 2 supply-chain agent for the Wayfair x Subconscious hackathon. DelXAI triages delivery exceptions, checks mock carrier capacity, reschedules shipments when approved, drafts customer-facing options, and writes an in-memory ops audit log.
+Track 2 supply-chain agent built for **Beat The Clock — Agent Hack Boston Tech Week Hackathon**. DelXAI triages delivery exceptions, checks mock carrier capacity, reschedules shipments when approved, drafts customer-facing options, and writes an in-memory ops audit log.
+
+**Live demo:** https://supply-chain-agent-pi.vercel.app/
+
+**Team:** Lenny Pische · Bohdan Koshevoi
 
 **Sponsors:** Wayfair · Subconscious · Baseten · Cloudflare
 
@@ -211,6 +215,8 @@ pnpm build && pnpm start
 ```
 
 Works on Vercel, Cloudflare, or any Node host.
+
+**Production:** https://supply-chain-agent-pi.vercel.app/
 
 ---
 

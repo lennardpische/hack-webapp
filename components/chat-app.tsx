@@ -19,14 +19,13 @@ const DEMO_SCENARIOS = [
     prompt: "What delivery exceptions are open today? Keep it brief.",
   },
   {
-    label: "Fix WF-10482",
+    label: "Marcus Chen bookshelf",
     prompt:
-      "Order WF-10482 missed its delivery window - fix it. Use the earliest recovery slot and draft the customer email.",
+      "Fix the Cambridge bookshelf delivery for Marcus Chen. Compare recovery slots, but do not book until all cartons are confirmed at the terminal.",
   },
   {
-    label: "Earliest redelivery",
-    prompt:
-      "Customer wants the earliest redelivery for tracking 1Z99910482. Compare options and use the earliest recovery slot.",
+    label: "Sam Rivera order",
+    prompt: "Fix Sam Rivera's order WF-99002.",
   },
   {
     label: "Denver weather delay",
